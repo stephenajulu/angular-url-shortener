@@ -1,11 +1,17 @@
-<mat-toolbar class="mat-elevation-z2" color="accent">
+<mat-toolbar class="mat-elevation-z1">
   <span class="ml-auto"></span>
-  <button mat-raised-button color="primary">Log in</button>
-  <span class="mx-1"></span>
-  <a routerLink="signup">
-    <button mat-raised-button color="warn">Sign up</button>
-  </a>
+  <span *ngIf="!layout.userConnected">
+    <a routerLink="signup">
+      <button mat-stroked-button color="primary">Inscription</button>
+    </a>
+  </span>
+  <span *ngIf="layout.userConnected">
+    <a routerLink="dashboard">
+      <button mat-stroked-button color="primary">Dashboard</button>
+    </a>
+  </span>
 </mat-toolbar>
+<hr>
 <div class="router-outlet">
   <router-outlet></router-outlet>
 </div>

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MONGOUSER } from '../../mocks/mongo-user.mock';
+import { UserService } from '../../services/user.service';
+import { LAYOUT } from '../../mocks/layout.mock';
 
 @Component({
   selector: 'app-signup',
@@ -7,18 +11,31 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   styleUrls: [ './signup.component.scss' ]
 })
 export class SignupComponent {
-  visibility = true;
-
-  emailFormControl = new FormControl('', [ Validators.required, Validators.email ]);
+  passwordVisibility = true;
+  validation = false;
+  unavailable = true;
+  mongoUser = MONGOUSER;
+  layout = LAYOUT;
 
   signupForm = this.fb.group({
-    firstName: [ null, Validators.required ],
-    lastName: [ null, Validators.required ],
-    email: [ null, Validators.required, Validators.email ],
-    password: [ null, Validators.required ]
+    firstName: [ '', Validators.required ],
+    lastName: [ '', Validators.required ],
+    email: [ '', Validators.compose([ Validators.email, Validators.required ]) ],
+    password: [ '', Validators.required ]
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}
 
-  onSubmit() {}
+  submitUser() {
+    this.userService
+      .createUser(MONGOUSER)
+      .toPromise()
+      .then(() => {
+        this.layout.userConnected = true;
+        this.router.navigate([ 'home' ]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
