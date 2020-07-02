@@ -6,7 +6,7 @@ import { MongoUser } from '../models/mongo-user.model';
   providedIn: 'root'
 })
 export class UserService {
-  rootUri = 'http://localhost:3000/users/';
+  rootUri = 'https://shortened.daedal.pro/users/';
 
   constructor(private http: HttpClient) {}
 

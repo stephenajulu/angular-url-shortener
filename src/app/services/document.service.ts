@@ -6,7 +6,7 @@ import { MongoDocument } from '../models/mongo-document.model';
   providedIn: 'root'
 })
 export class DocumentService {
-  rootUri = 'http://localhost:3000/documents/';
+  rootUri = 'https://shortened.daedal.pro/documents/';
 
   constructor(private http: HttpClient) {}
 
