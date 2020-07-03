@@ -1,32 +1,20 @@
 <div class="container pt-5">
-  <mat-card>
+  <mat-card class="mat-elevation-z8">
     <mat-card-content>
       <mat-form-field class="col-12 mt-3" appearance="outline" *ngIf="!mongoDocument.created">
-        <mat-label>Entrez un lien</mat-label>
+        <mat-label>Entrez un lien à raccourcir</mat-label>
         <input matInput [(ngModel)]="mongoDocument.url" autofocus>
-        <mat-icon matSuffix>link</mat-icon>
+        <button mat-button mat-icon-button matSuffix (click)=createGenericDocument()>
+          <mat-icon>cached</mat-icon>
+        </button>
       </mat-form-field>
       <mat-form-field class="col-12 mt-3" appearance="outline" *ngIf="mongoDocument.created">
         <mat-label>Votre lien raccourci</mat-label>
         <input matInput [ngModel]="'https://shortened.daedal.pro/' + mongoDocument.shortId">
-        <button mat-button mat-icon-button matSuffix (click)="reset()">
-          <mat-icon>delete</mat-icon>
+        <button mat-button mat-icon-button matSuffix (click)="copyLink()">
+          <mat-icon>content_copy</mat-icon>
         </button>
       </mat-form-field>
-      <div class="col-12 mb-3 d-flex">
-        <button *ngIf="!mongoDocument.created" mat-stroked-button color="primary" class="flex-fill"
-          (click)=createGenericDocument()>
-          Raccourcir
-        </button>
-        <button *ngIf="mongoDocument.created" mat-stroked-button color="primary" class="flex-fill" (click)="copyLink()">
-          Copier le lien
-        </button>
-      </div>
-      <div *ngIf="mongoDocument.created" class="col-12 pt-2 mb-3 d-flex">
-        <button mat-stroked-button color="primary" class="flex-fill" (click)="copyQrCode()">
-          <img src="{{ mongoDocument.qrCode }}">
-        </button>
-      </div>
     </mat-card-content>
   </mat-card>
 </div>
