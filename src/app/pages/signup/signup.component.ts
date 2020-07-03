@@ -11,7 +11,6 @@ import { UserService } from '../../services/user.service';
   styleUrls: [ './signup.component.scss' ]
 })
 export class SignupComponent implements OnInit {
-  passwordVisibility = true;
   validation = false;
   layout = LAYOUT;
   signupForm: FormGroup;
