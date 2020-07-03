@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, ValidationErrors, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { LAYOUT } from '../../mocks/layout.mock';
 import { MONGOUSER } from '../../mocks/mongo-user.mock';
 import { UserService } from '../../services/user.service';
@@ -11,37 +10,46 @@ import { UserService } from '../../services/user.service';
   templateUrl: './signup.component.html',
   styleUrls: [ './signup.component.scss' ]
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   passwordVisibility = true;
   validation = false;
-  validating = false;
-  unavailable = true;
-  mongoUser = MONGOUSER;
   layout = LAYOUT;
-
-  signupForm = this.fb.group({
-    firstName: [ '', Validators.required ],
-    lastName: [ '', Validators.required ],
-    email: [ '', Validators.compose([ Validators.email, Validators.required ]), this.emailVerificator() ],
-    password: [ '', Validators.required ],
-    confirmPassword: [ '', Validators.compose([ this.passwordMatcher, Validators.required ]) ]
-  });
+  signupForm: FormGroup;
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}
 
+  ngOnInit() {
+    this.signupForm = this.fb.group({
+      firstName: [ '', Validators.required ],
+      lastName: [ '', Validators.required ],
+      email: [ '', Validators.compose([ Validators.email, Validators.required ]), this.emailVerificator() ],
+      password: [ '', Validators.required ],
+      confirmPassword: [ '', Validators.compose([ Validators.required, this.passwordMatcher() ]) ]
+    });
+  }
+
   emailVerificator(): AsyncValidatorFn {
-    return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      return this.userService.verifyIfEmailIsAvailable(control.value).then((response) => {
-        return !response ? { unavailable: true } : null;
-      });
+    return async (control: AbstractControl): Promise<ValidationErrors | null> => {
+      const response = await this.userService.verifyIfEmailIsAvailable(control.value);
+      return !response ? { unavailable: true } : null;
     };
   }
 
-  passwordMatcher(input: FormControl) {
-    return MONGOUSER.password !== input.value ? { unmatch: true } : null;
+  passwordMatcher(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value) {
+        return control.value !== control.root.get('password').value ? { unmatch: true } : null;
+      }
+      return null;
+    };
   }
 
   submitUser() {
+    console.log(this.signupForm.value);
+    MONGOUSER.email = this.signupForm.value.email;
+    MONGOUSER.password = this.signupForm.value.password;
+    MONGOUSER.firstName = this.signupForm.value.firstName;
+    MONGOUSER.lastName = this.signupForm.value.lastName;
     this.userService
       .createUser(MONGOUSER)
       .then(() => {

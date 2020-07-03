@@ -4,8 +4,7 @@
       <form [formGroup]="signupForm">
         <mat-form-field class="col-12 mt-3" appearance="outline">
           <mat-label>Adresse email</mat-label>
-          <input matInput placeholder="Entrez votre adresse email" formControlName="email"
-            [(ngModel)]="mongoUser.email">
+          <input matInput placeholder="Entrez votre adresse email" formControlName="email" autocomplete="email">
           <mat-error *ngIf="signupForm.controls['email'].hasError('required')">
             Champ <strong>obligatoire</strong>
           </mat-error>
@@ -17,15 +16,11 @@
             Adresse email déjà <strong>enregistrée</strong>, cliquez <a routerLink="login"><strong>ici</strong></a> pour
             vous connecter.
           </mat-error>
-          <!-- <mat-error *ngIf="signupForm.get('email').errors?.userNameExists">
-            Adresse email déjà <strong>enregistrée</strong>, cliquez <a routerLink="login"><strong>ici</strong></a> pour
-            vous connecter.
-          </mat-error> -->
         </mat-form-field>
         <mat-form-field class="col-6 mt-3" appearance="outline">
           <mat-label>Mot de passe</mat-label>
           <input type="{{ passwordVisibility ? 'password':'text' }}" matInput placeholder="Choisissez un mot de passe"
-            formControlName="password" [(ngModel)]="mongoUser.password">
+            autocomplete="new-password" formControlName="password">
           <button mat-button matSuffix mat-icon-button (click)="passwordVisibility = !passwordVisibility">
             <mat-icon *ngIf="passwordVisibility">visibility</mat-icon>
             <mat-icon *ngIf="!passwordVisibility">visibility_off</mat-icon>
@@ -37,7 +32,7 @@
         <mat-form-field class="col-6 mt-3" appearance="outline">
           <mat-label>Rétaper le mot de passe</mat-label>
           <input type="{{ passwordVisibility ? 'password':'text' }}" matInput placeholder="Choisissez un mot de passe"
-            formControlName="confirmPassword">
+            autocomplete="new-password" formControlName="confirmPassword">
           <mat-error
             *ngIf="signupForm.controls['confirmPassword'].hasError('unmatch') && !signupForm.controls['confirmPassword'].hasError('required')">
             Les mots de passe ne correspondent pas
@@ -48,16 +43,14 @@
         </mat-form-field>
         <mat-form-field class="col-12 mt-3" appearance="outline">
           <mat-label>Prénom</mat-label>
-          <input matInput placeholder="Entrez votre prénom" formControlName="firstName"
-            [(ngModel)]="mongoUser.firstName">
+          <input matInput placeholder="Entrez votre prénom" formControlName="firstName">
           <mat-error *ngIf="signupForm.controls['firstName'].hasError('required')">
             Champ <strong>obligatoire</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-12 mt-3" appearance="outline">
           <mat-label>Nom de famille</mat-label>
-          <input matInput placeholder="Entrez votre nom de famille" formControlName="lastName"
-            [(ngModel)]="mongoUser.lastName">
+          <input matInput placeholder="Entrez votre nom de famille" formControlName="lastName">
           <mat-error *ngIf="signupForm.controls['lastName'].hasError('required')">
             Champ <strong>obligatoire</strong>
           </mat-error>
