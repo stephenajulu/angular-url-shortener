@@ -11,22 +11,22 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   createUser(user: MongoUser) {
-    return this.http.post(this.rootUri, user);
+    return this.http.post(this.rootUri, user).toPromise();
   }
 
   getUserByEmail(email: string, password: string) {
-    return this.http.post(this.rootUri, { email, password });
+    return this.http.post(this.rootUri, { email, password }).toPromise();
   }
 
   updateUserById(user: MongoUser, id: string) {
-    return this.http.put(this.rootUri + id, user);
+    return this.http.put(this.rootUri + id, user).toPromise();
   }
 
   deleteUserById(id: string) {
-    return this.http.delete(this.rootUri + id);
+    return this.http.delete(this.rootUri + id).toPromise();
   }
 
   verifyIfEmailIsAvailable(email: string) {
-    return this.http.post(this.rootUri + 'checkEmail', { email });
+    return this.http.post(this.rootUri + 'checkEmail', { email }).toPromise();
   }
 }

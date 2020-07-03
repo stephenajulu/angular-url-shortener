@@ -6,13 +6,21 @@
           <mat-label>Adresse email</mat-label>
           <input matInput placeholder="Entrez votre adresse email" formControlName="email"
             [(ngModel)]="mongoUser.email">
-          <mat-error
-            *ngIf="signupForm.controls['email'].hasError('required') && !signupForm.controls['email'].hasError('email')">
+          <mat-error *ngIf="signupForm.controls['email'].hasError('required')">
             Champ <strong>obligatoire</strong>
           </mat-error>
           <mat-error *ngIf="signupForm.controls['email'].hasError('email')">
             Entrez une adresse email <strong>valide</strong>
           </mat-error>
+          <mat-error
+            *ngIf="signupForm.controls['email'].hasError('unavailable') && !signupForm.controls['email'].hasError('required') && !signupForm.controls['email'].hasError('email')">
+            Adresse email déjà <strong>enregistrée</strong>, cliquez <a routerLink="login"><strong>ici</strong></a> pour
+            vous connecter.
+          </mat-error>
+          <!-- <mat-error *ngIf="signupForm.get('email').errors?.userNameExists">
+            Adresse email déjà <strong>enregistrée</strong>, cliquez <a routerLink="login"><strong>ici</strong></a> pour
+            vous connecter.
+          </mat-error> -->
         </mat-form-field>
         <mat-form-field class="col-6 mt-3" appearance="outline">
           <mat-label>Mot de passe</mat-label>
@@ -31,7 +39,7 @@
           <input type="{{ passwordVisibility ? 'password':'text' }}" matInput placeholder="Choisissez un mot de passe"
             formControlName="confirmPassword">
           <mat-error
-            *ngIf="signupForm.controls['confirmPassword'].hasError('match') && !signupForm.controls['confirmPassword'].hasError('required')">
+            *ngIf="signupForm.controls['confirmPassword'].hasError('unmatch') && !signupForm.controls['confirmPassword'].hasError('required')">
             Les mots de passe ne correspondent pas
           </mat-error>
           <mat-error *ngIf="signupForm.controls['confirmPassword'].hasError('required')">
