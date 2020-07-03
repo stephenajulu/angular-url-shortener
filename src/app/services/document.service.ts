@@ -10,8 +10,8 @@ export class DocumentService {
 
   constructor(private http: HttpClient) {}
 
-  createGenericDocument(document: MongoDocument) {
-    return this.http.post(this.rootUri, document).toPromise();
+  createGenericDocument(url: string) {
+    return this.http.post(this.rootUri, { url }).toPromise();
   }
 
   createCustomDocument(document: MongoDocument, shortId: string) {

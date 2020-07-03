@@ -9,7 +9,10 @@ hr {
   margin: 0;
 }
 
-.router-outlet {
+.background {
   height: calc(100vh - 65px);
-  background-color: rgb(241, 241, 241);
+  background-image: linear-gradient(to bottom, #ffffff9a, #ffffff4d), url('../../../assets/background/background.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

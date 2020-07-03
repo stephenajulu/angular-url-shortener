@@ -22,6 +22,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { NavigationComponent } from './pages/navigation/navigation.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { UserComponent } from './pages/user/user.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [ AppComponent, HomeComponent, UserComponent, NavigationComponent, LoginComponent, SignupComponent ],
@@ -39,6 +40,7 @@ import { UserComponent } from './pages/user/user.component';
     MatListModule,
     MatProgressSpinnerModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatToolbarModule,
     MatSelectModule,
     MatRadioModule,

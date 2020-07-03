@@ -13,7 +13,7 @@
           </mat-error>
           <mat-error
             *ngIf="signupForm.controls['email'].hasError('unavailable') && !signupForm.controls['email'].hasError('required') && !signupForm.controls['email'].hasError('email')">
-            Adresse email déjà <strong>enregistrée</strong>, cliquez <a routerLink="login"><strong>ici</strong></a> pour
+            Adresse email déjà <strong>utilisée</strong>, cliquez <a routerLink="login"><strong>ici</strong></a> pour
             vous connecter.
           </mat-error>
         </mat-form-field>
