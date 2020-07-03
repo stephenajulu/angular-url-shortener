@@ -3,6 +3,42 @@
     <mat-card-content>
       <form [formGroup]="signupForm">
         <mat-form-field class="col-12 mt-3" appearance="outline">
+          <mat-label>Adresse email</mat-label>
+          <input matInput placeholder="Entrez votre adresse email" formControlName="email"
+            [(ngModel)]="mongoUser.email">
+          <mat-error
+            *ngIf="signupForm.controls['email'].hasError('required') && !signupForm.controls['email'].hasError('email')">
+            Champ <strong>obligatoire</strong>
+          </mat-error>
+          <mat-error *ngIf="signupForm.controls['email'].hasError('email')">
+            Entrez une adresse email <strong>valide</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-6 mt-3" appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input type="{{ passwordVisibility ? 'password':'text' }}" matInput placeholder="Choisissez un mot de passe"
+            formControlName="password" [(ngModel)]="mongoUser.password">
+          <button mat-button matSuffix mat-icon-button (click)="passwordVisibility = !passwordVisibility">
+            <mat-icon *ngIf="passwordVisibility">visibility</mat-icon>
+            <mat-icon *ngIf="!passwordVisibility">visibility_off</mat-icon>
+          </button>
+          <mat-error *ngIf="signupForm.controls['password'].hasError('required')">
+            Champ <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-6 mt-3" appearance="outline">
+          <mat-label>Rétaper le mot de passe</mat-label>
+          <input type="{{ passwordVisibility ? 'password':'text' }}" matInput placeholder="Choisissez un mot de passe"
+            formControlName="confirmPassword">
+          <mat-error
+            *ngIf="signupForm.controls['confirmPassword'].hasError('match') && !signupForm.controls['confirmPassword'].hasError('required')">
+            Les mots de passe ne correspondent pas
+          </mat-error>
+          <mat-error *ngIf="signupForm.controls['confirmPassword'].hasError('required')">
+            Champ <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 mt-3" appearance="outline">
           <mat-label>Prénom</mat-label>
           <input matInput placeholder="Entrez votre prénom" formControlName="firstName"
             [(ngModel)]="mongoUser.firstName">
@@ -15,30 +51,6 @@
           <input matInput placeholder="Entrez votre nom de famille" formControlName="lastName"
             [(ngModel)]="mongoUser.lastName">
           <mat-error *ngIf="signupForm.controls['lastName'].hasError('required')">
-            Champ <strong>obligatoire</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-12 mt-3" appearance="outline">
-          <mat-label>Adresse email</mat-label>
-          <input matInput placeholder="Entrez votre adresse email" formControlName="email"
-            [(ngModel)]="mongoUser.email">
-          <mat-error
-            *ngIf="signupForm.controls['email'].hasError('required') && !signupForm.controls['email'].hasError('email')">
-            Champ <strong>obligatoire</strong>
-          </mat-error>
-          <mat-error *ngIf="signupForm.controls['email'].hasError('email')">
-            Entrez une adresse email <strong>valide</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-12 mt-3" appearance="outline">
-          <mat-label>Mot de passe</mat-label>
-          <input type="{{ passwordVisibility ? 'password':'text' }}" matInput placeholder="Choisissez un mot de passe"
-            formControlName="password" [(ngModel)]="mongoUser.password">
-          <button mat-button matSuffix mat-icon-button (click)="passwordVisibility = !passwordVisibility">
-            <mat-icon *ngIf="passwordVisibility">visibility</mat-icon>
-            <mat-icon *ngIf="!passwordVisibility">visibility_off</mat-icon>
-          </button>
-          <mat-error *ngIf="signupForm.controls['password'].hasError('required')">
             Champ <strong>obligatoire</strong>
           </mat-error>
         </mat-form-field>

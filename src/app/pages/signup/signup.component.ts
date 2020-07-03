@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LAYOUT } from '../../mocks/layout.mock';
 import { MONGOUSER } from '../../mocks/mongo-user.mock';
 import { UserService } from '../../services/user.service';
-import { LAYOUT } from '../../mocks/layout.mock';
+
+const passwordMatcher = (input: FormControl) => {
+  return MONGOUSER.password === input.value ? null : { match: true };
+};
 
 @Component({
   selector: 'app-signup',
@@ -21,7 +25,8 @@ export class SignupComponent {
     firstName: [ '', Validators.required ],
     lastName: [ '', Validators.required ],
     email: [ '', Validators.compose([ Validators.email, Validators.required ]) ],
-    password: [ '', Validators.required ]
+    password: [ '', Validators.required ],
+    confirmPassword: [ '', Validators.compose([ passwordMatcher, Validators.required ]) ]
   });
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}

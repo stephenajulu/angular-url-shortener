@@ -1,6 +1,13 @@
 <mat-toolbar class="mat-elevation-z1">
+  <a routerLink="home">
+    <button mat-stroked-button color="accent">Accueil</button>
+  </a>
   <span class="ml-auto"></span>
   <span *ngIf="!layout.userConnected">
+    <a routerLink="login">
+      <button mat-stroked-button color="warn">Connexion</button>
+    </a>
+    <span class="mx-1"></span>
     <a routerLink="signup">
       <button mat-stroked-button color="primary">Inscription</button>
     </a>
