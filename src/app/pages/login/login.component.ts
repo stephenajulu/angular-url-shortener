@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
         MONGOUSER.username = response.username;
         MONGOUSER.email = response.email;
         MONGOUSER.password = this.loginForm.value.password;
+        MONGOUSER.id = response._id;
         this.layout.userConnected = true;
         if (this.cookie) {
           this.cookiesService.setCookie('login', btoa(JSON.stringify({ username: MONGOUSER.username, password: MONGOUSER.password })));

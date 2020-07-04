@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MongoUser } from 'src/app/models/mongo-user.model';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { LAYOUT } from '../../mocks/layout.mock';
 import { MONGOUSER } from '../../mocks/mongo-user.mock';
@@ -51,7 +50,8 @@ export class SignupComponent implements OnInit {
     MONGOUSER.username = this.signupForm.value.username;
     this.userService
       .createUser(MONGOUSER)
-      .then(() => {
+      .then((response: any) => {
+        MONGOUSER.id = response.mongoUser._id;
         this.layout.userConnected = true;
         if (this.cookie) {
           this.cookiesService.setCookie('login', btoa(JSON.stringify({ username: MONGOUSER.username, password: MONGOUSER.password })));

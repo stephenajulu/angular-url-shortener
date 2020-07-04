@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { LAYOUT } from './mocks/layout.mock';
+import { MONGOUSER } from './mocks/mongo-user.mock';
 import { CookiesService } from './services/cookies.service';
 import { UserService } from './services/user.service';
-import { MONGOUSER } from './mocks/mongo-user.mock';
-import { LAYOUT } from './mocks/layout.mock';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
           MONGOUSER.username = response.username;
           MONGOUSER.email = response.email;
           MONGOUSER.password = response.password;
+          MONGOUSER.id = response._id;
           LAYOUT.userConnected = true;
         })
         .catch((err) => {

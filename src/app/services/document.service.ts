@@ -10,12 +10,12 @@ export class DocumentService {
 
   constructor(private http: HttpClient) {}
 
-  createGenericDocument(url: string) {
-    return this.http.post(this.rootUri, { url }).toPromise();
+  createGenericDocument(url: string, userId: string) {
+    return this.http.post(this.rootUri, { url, userId }).toPromise();
   }
 
-  createCustomDocument(document: MongoDocument, shortId: string) {
-    return this.http.post(this.rootUri + 'customId/' + shortId, document).toPromise();
+  createCustomDocument(url: string, shortId: string, userId: string) {
+    return this.http.post(this.rootUri + 'customId/' + shortId, { url, userId, customized: true }).toPromise();
   }
 
   getDocumentByShortId(shortId: string) {
@@ -30,7 +30,7 @@ export class DocumentService {
     return this.http.delete(this.rootUri + id).toPromise();
   }
 
-  verifyIfIdIsAvailable(shortId: string) {
+  verifyIfshortIdIsAvailable(shortId: string) {
     return this.http.get(this.rootUri + 'checkId/' + shortId).toPromise();
   }
 }
