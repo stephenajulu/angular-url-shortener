@@ -22,6 +22,10 @@ export class DocumentService {
     return this.http.get(this.rootUri + shortId).toPromise();
   }
 
+  getDocumentsByUserId(userId: string) {
+    return this.http.get(this.rootUri + 'userId/' + userId).toPromise();
+  }
+
   updateDocumentById(document: MongoDocument, id: string) {
     return this.http.put(this.rootUri + id, document).toPromise();
   }

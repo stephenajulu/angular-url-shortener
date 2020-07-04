@@ -23,10 +23,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NavigationComponent } from './pages/navigation/navigation.component';
 import { SignupComponent } from './pages/signup/signup.component';
-import { UserComponent } from './pages/user/user.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [ AppComponent, HomeComponent, UserComponent, NavigationComponent, LoginComponent, SignupComponent ],
+  declarations: [ AppComponent, HomeComponent, NavigationComponent, LoginComponent, SignupComponent, DashboardComponent ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
