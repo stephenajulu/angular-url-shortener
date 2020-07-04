@@ -1,18 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-  FormGroupDirective,
-  NgForm,
-  ValidatorFn,
-  AbstractControl,
-  ValidationErrors
-} from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MONGOUSER } from 'src/app/mocks/mongo-user.mock';
+import { CookiesService } from 'src/app/services/cookies.service';
 import { LAYOUT } from '../../mocks/layout.mock';
 import { UserService } from '../../services/user.service';
 
@@ -27,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   error = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private snackBar: MatSnackBar) {}
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private cookiesService: CookiesService) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -42,15 +32,19 @@ export class LoginComponent implements OnInit {
       .then((response: any) => {
         MONGOUSER.username = response.username;
         MONGOUSER.email = response.email;
+        MONGOUSER.password = this.loginForm.value.password;
         this.layout.userConnected = true;
+        if (this.cookie) {
+          this.cookiesService.setCookie('login', btoa(JSON.stringify({ username: MONGOUSER.username, password: MONGOUSER.password })));
+        }
         this.router.navigate([ 'home' ]);
       })
-      .catch((err) => {
+      .catch(() => {
         this.error = true;
       });
   }
 
-  resetError() {
+  resetPasswordErrorMessage() {
     this.error = false;
   }
 }

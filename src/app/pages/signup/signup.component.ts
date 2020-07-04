@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MongoUser } from 'src/app/models/mongo-user.model';
+import { CookiesService } from 'src/app/services/cookies.service';
 import { LAYOUT } from '../../mocks/layout.mock';
 import { MONGOUSER } from '../../mocks/mongo-user.mock';
 import { UserService } from '../../services/user.service';
@@ -16,7 +18,7 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   cookie = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private cookiesService: CookiesService) {}
 
   ngOnInit() {
     this.signupForm = this.fb.group({
@@ -51,6 +53,9 @@ export class SignupComponent implements OnInit {
       .createUser(MONGOUSER)
       .then(() => {
         this.layout.userConnected = true;
+        if (this.cookie) {
+          this.cookiesService.setCookie('login', btoa(JSON.stringify({ username: MONGOUSER.username, password: MONGOUSER.password })));
+        }
         this.router.navigate([ 'home' ]);
       })
       .catch((err) => {

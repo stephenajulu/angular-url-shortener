@@ -12,7 +12,7 @@
         <mat-form-field class="col-12 mt-3" appearance="outline">
           <mat-label>Mot de passe</mat-label>
           <input type="password" matInput placeholder="Choisissez un mot de passe" autocomplete="password"
-            formControlName="password" (keyup)="resetError()">
+            formControlName="password" (keyup)="resetPasswordErrorMessage()">
           <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
             Champ <strong>obligatoire</strong>
           </mat-error>
