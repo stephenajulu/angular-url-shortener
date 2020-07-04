@@ -61,6 +61,8 @@ export class HomeComponent implements OnInit {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      this.snackBar.open('Merci de renseigner tous les champs', '', { duration: 2000, horizontalPosition: 'start' });
     }
   }
 
@@ -75,11 +77,21 @@ export class HomeComponent implements OnInit {
           .catch((err) => {
             console.log(err);
           });
+      } else {
+        this.snackBar.open('Merci de renseigner tous les champs', '', { duration: 2000, horizontalPosition: 'start' });
       }
+    } else {
+      this.snackBar.open('Demande invalide', '', { duration: 2000, horizontalPosition: 'start' });
     }
   }
 
-  submitForm(event: KeyboardEvent) {
+  submitUrl(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.createDocument();
+    }
+  }
+
+  submitSlug(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.createDocument();
     }

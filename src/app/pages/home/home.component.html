@@ -4,7 +4,7 @@
       <mat-form-field class="col-12 mt-3" appearance="outline" *ngIf="!mongoDocument.created">
         <mat-label>Entrez un lien à raccourcir</mat-label>
         <div class="d-flex align-items-center">
-          <input matInput [(ngModel)]="mongoDocument.url" autofocus (keyup)="submitForm($event)"
+          <input matInput [(ngModel)]="mongoDocument.url" autofocus (keyup)="submitUrl($event)"
             class="text-accent big-input" placeholder="http://">
           <button mat-button mat-icon-button matSuffix (click)="createDocument()">
             <mat-icon class="text-accent">keyboard_return</mat-icon>
@@ -30,7 +30,7 @@
           <mat-form-field class="flex-fill" appearance="outline">
             <mat-label>Entrez votre slug personnalisé</mat-label>
             <input matInput placeholder="mon-slug" formControlName="slug" pattern="^[a-zA-Z0-9_.-]*$"
-              (keyup)="submitForm($event)">
+              (keyup)="submitSlug($event)">
             <mat-icon matSuffix class="mr-1">tune</mat-icon>
             <mat-error *ngIf="slugForm.controls['slug'].hasError('pattern')">
               Caractères spéciaux <strong>non autorisés</strong>
