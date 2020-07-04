@@ -14,22 +14,22 @@ export class SignupComponent implements OnInit {
   validation = false;
   layout = LAYOUT;
   signupForm: FormGroup;
+  cookie = false;
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}
 
   ngOnInit() {
     this.signupForm = this.fb.group({
-      firstName: [ '', Validators.required ],
-      lastName: [ '', Validators.required ],
-      email: [ '', Validators.compose([ Validators.email, Validators.required ]), this.emailVerificator() ],
+      username: [ '', Validators.required, this.userVerificator() ],
+      email: [ '', Validators.compose([ Validators.email, Validators.required ]) ],
       password: [ '', Validators.required ],
       confirmPassword: [ '', Validators.compose([ Validators.required, this.passwordMatcher() ]) ]
     });
   }
 
-  emailVerificator(): AsyncValidatorFn {
+  userVerificator(): AsyncValidatorFn {
     return async (control: AbstractControl): Promise<ValidationErrors | null> => {
-      const response = await this.userService.verifyIfEmailIsAvailable(control.value);
+      const response = await this.userService.verifyIfUsernameIsAvailable(control.value);
       return !response ? { unavailable: true } : null;
     };
   }
@@ -44,11 +44,9 @@ export class SignupComponent implements OnInit {
   }
 
   submitUser() {
-    console.log(this.signupForm.value);
     MONGOUSER.email = this.signupForm.value.email;
     MONGOUSER.password = this.signupForm.value.password;
-    MONGOUSER.firstName = this.signupForm.value.firstName;
-    MONGOUSER.lastName = this.signupForm.value.lastName;
+    MONGOUSER.username = this.signupForm.value.username;
     this.userService
       .createUser(MONGOUSER)
       .then(() => {

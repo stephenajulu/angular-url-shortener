@@ -14,8 +14,8 @@ export class UserService {
     return this.http.post(this.rootUri, user).toPromise();
   }
 
-  getUserByEmail(email: string, password: string) {
-    return this.http.post(this.rootUri, { email, password }).toPromise();
+  getUserbyUsername(username: string, password: string) {
+    return this.http.post(this.rootUri + 'auth', { username, password }).toPromise();
   }
 
   updateUserById(user: MongoUser, id: string) {
@@ -26,7 +26,7 @@ export class UserService {
     return this.http.delete(this.rootUri + id).toPromise();
   }
 
-  verifyIfEmailIsAvailable(email: string) {
-    return this.http.post(this.rootUri + 'checkEmail', { email }).toPromise();
+  verifyIfUsernameIsAvailable(username: string) {
+    return this.http.post(this.rootUri + 'checkUser', { username }).toPromise();
   }
 }

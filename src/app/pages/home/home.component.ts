@@ -33,7 +33,6 @@ export class HomeComponent {
     selBox.style.top = '0';
     selBox.style.opacity = '0';
     selBox.value = `https://shortened.daedal.pro/${this.mongoDocument.shortId}`;
-    console.log(selBox.value);
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
@@ -49,7 +48,6 @@ export class HomeComponent {
     selBox.style.top = '0';
     selBox.style.opacity = '0';
     selBox.value = this.mongoDocument.qrCode;
-    console.log(selBox.value);
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
