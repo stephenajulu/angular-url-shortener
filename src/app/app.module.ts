@@ -24,6 +24,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { NavigationComponent } from './pages/navigation/navigation.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [ AppComponent, HomeComponent, NavigationComponent, LoginComponent, SignupComponent, DashboardComponent ],
@@ -36,6 +37,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     LayoutModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatIconModule,
     MatInputModule,
     MatListModule,

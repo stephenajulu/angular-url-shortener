@@ -2,13 +2,11 @@
   <mat-card class="mat-elevation-z8">
     <mat-card-content>
       <mat-form-field class="col-12 mt-3" appearance="outline" *ngIf="!mongoDocument.created">
-        <mat-label>Entrez un lien à raccourcir</mat-label>
+        <mat-label>Entrez votre lien</mat-label>
         <div class="d-flex align-items-center">
-          <input matInput [(ngModel)]="mongoDocument.url" autofocus (keyup)="submitUrl($event)"
+          <input matInput [(ngModel)]="mongoDocument.url" autofocus (keyup)="keyboardSubmit($event)"
             class="text-accent big-input" placeholder="http://">
-          <button mat-button mat-icon-button matSuffix (click)="createDocument()">
-            <mat-icon class="text-accent">keyboard_return</mat-icon>
-          </button>
+          <mat-icon matSuffix>link</mat-icon>
         </div>
       </mat-form-field>
       <mat-form-field class="col-12 mt-3" appearance="outline" *ngIf="mongoDocument.created">
@@ -21,17 +19,13 @@
           </button>
         </div>
       </mat-form-field>
-      <div class="col-12 mt-3 d-flex align-items-center" *ngIf="layout.userConnected && !mongoDocument.created">
-        <div class="mb-2">
-          <mat-checkbox color="primary" [(ngModel)]="customSlug" (change)="enableCustomization()">
-          </mat-checkbox>
-        </div>
-        <form [formGroup]="slugForm" class="d-flex flex-fill ml-3">
+      <div class="col-12 d-flex align-items-center" *ngIf="layout.userConnected && !mongoDocument.created">
+        <form [formGroup]="slugForm" class="d-flex flex-fill">
           <mat-form-field class="flex-fill" appearance="outline">
-            <mat-label>Entrez votre slug personnalisé</mat-label>
-            <input matInput placeholder="mon-slug" formControlName="slug" pattern="^[a-zA-Z0-9_.-]*$"
-              (keyup)="submitSlug($event)">
-            <mat-icon matSuffix class="mr-1">tune</mat-icon>
+            <mat-label>Choisissez votre id (optionnel)</mat-label>
+            <input matInput placeholder="..." formControlName="slug" pattern="^[a-zA-Z0-9_.-]*$" class="text-accent"
+              value="https://shortened.daedal.pro/" (keyup)="keyboardSubmit($event)">
+            <mat-icon matSuffix>settings</mat-icon>
             <mat-error *ngIf="slugForm.controls['slug'].hasError('pattern')">
               Caractères spéciaux <strong>non autorisés</strong>
             </mat-error>
@@ -41,6 +35,20 @@
             </mat-error>
           </mat-form-field>
         </form>
+      </div>
+      <div *ngIf="!mongoDocument.created" class="col-12 mb-3 d-flex justify-content-end" (click)="createDocument()">
+        <button mat-stroked-button color="accent">
+          Raccourcir
+        </button>
+      </div>
+      <div *ngIf="mongoDocument.created" class="col-12 mb-3 d-flex justify-content-end">
+        <button mat-stroked-button color="accent" (click)="showQrCode()">
+          <mat-icon>qr_code</mat-icon>
+        </button>
+        <span class="mx-2"></span>
+        <button mat-stroked-button color="primary" (click)="reset()">
+          <mat-icon>autorenew</mat-icon>
+        </button>
       </div>
     </mat-card-content>
   </mat-card>

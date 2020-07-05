@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LAYOUT } from 'src/app/mocks/layout.mock';
 import { MONGOUSER } from 'src/app/mocks/mongo-user.mock';
 import { MongoDocument } from '../../models/mongo-document.model';
 import { DocumentService } from '../../services/document.service';
+
+let QRCODE: string;
+let SHORTENEDURL: string;
 
 @Component({
   selector: 'app-home',
@@ -17,34 +21,28 @@ export class HomeComponent implements OnInit {
   slugForm: FormGroup;
   customSlug = false;
 
-  constructor(private documentService: DocumentService, private snackBar: MatSnackBar, private fb: FormBuilder) {}
+  constructor(private documentService: DocumentService, private snackBar: MatSnackBar, private fb: FormBuilder, public dialog: MatDialog) {}
 
   ngOnInit() {
     if (this.layout.userConnected) {
       this.slugForm = this.fb.group({
-        slug: [ { value: '', disabled: true }, Validators.pattern, this.slugVerificator() ]
+        slug: [ '', Validators.pattern, this.slugVerificator() ]
       });
     }
   }
 
   slugVerificator(): AsyncValidatorFn {
     return async (control: AbstractControl): Promise<ValidationErrors | null> => {
-      const response = await this.documentService.verifyIfshortIdIsAvailable(control.value);
-      return !response ? { unavailable: true } : null;
+      if (control.value !== undefined && control.value !== '') {
+        const response = await this.documentService.verifyIfshortIdIsAvailable(control.value);
+        return !response ? { unavailable: true } : null;
+      }
+      return null;
     };
   }
 
-  enableCustomization() {
-    if (this.customSlug) {
-      this.slugForm.get('slug').enable();
-    } else {
-      this.slugForm.get('slug').reset();
-      this.slugForm.get('slug').disable();
-    }
-  }
-
   createDocument() {
-    if (this.customSlug) {
+    if (this.slugForm.value.slug !== '' && this.slugForm !== undefined) {
       this.createCustomDocument();
     } else {
       this.createGenericDocument();
@@ -57,6 +55,8 @@ export class HomeComponent implements OnInit {
         .createGenericDocument(this.mongoDocument.url, this.layout.userConnected ? MONGOUSER.id : '')
         .then((response: any) => {
           this.mongoDocument = response;
+          QRCODE = this.mongoDocument.qrCode;
+          SHORTENEDURL = `https://shortened.daedal.pro/${this.mongoDocument.shortId}`;
         })
         .catch((err) => {
           console.log(err);
@@ -73,6 +73,8 @@ export class HomeComponent implements OnInit {
           .createCustomDocument(this.mongoDocument.url, this.slugForm.value.slug, MONGOUSER.id)
           .then((response: any) => {
             this.mongoDocument = response;
+            QRCODE = this.mongoDocument.qrCode;
+            SHORTENEDURL = `https://shortened.daedal.pro/${this.mongoDocument.shortId}`;
           })
           .catch((err) => {
             console.log(err);
@@ -85,13 +87,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  submitUrl(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.createDocument();
-    }
-  }
-
-  submitSlug(event: KeyboardEvent) {
+  keyboardSubmit(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.createDocument();
     }
@@ -129,5 +125,20 @@ export class HomeComponent implements OnInit {
 
   reset() {
     this.mongoDocument = new MongoDocument();
+    this.customSlug = false;
+    this.ngOnInit();
   }
+
+  showQrCode() {
+    this.dialog.open(QrCodeComponent);
+  }
+}
+
+@Component({
+  selector: 'app-qrcode',
+  templateUrl: 'qrcode.component.html'
+})
+export class QrCodeComponent {
+  qrCode = QRCODE;
+  shortenedUrl = SHORTENEDURL;
 }
