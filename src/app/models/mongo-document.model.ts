@@ -7,4 +7,6 @@ export class MongoDocument {
   shortId: string;
   url: string;
   userId: string;
+  // tslint:disable-next-line: variable-name
+  _id: string;
 }

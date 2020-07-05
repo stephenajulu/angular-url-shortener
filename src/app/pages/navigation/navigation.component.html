@@ -16,9 +16,10 @@
     <a routerLink="dashboard">
       <button mat-stroked-button color="primary">Dashboard</button>
     </a>
+    <span class="mx-1"></span>
+    <button mat-stroked-button color="warn" (click)="disconnect()">Déconnexion</button>
   </span>
 </mat-toolbar>
-<hr>
-<div class="background">
+<mat-sidenav-container class="router">
   <router-outlet></router-outlet>
-</div>
+</mat-sidenav-container>

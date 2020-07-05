@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
         })
         .catch((err) => {
           console.log(err);
+          this.cookiesService.deleteCookie('login');
         })
         .finally(() => {
           this.loaded = true;

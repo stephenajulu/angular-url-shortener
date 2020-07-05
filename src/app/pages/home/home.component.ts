@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,9 +6,7 @@ import { LAYOUT } from 'src/app/mocks/layout.mock';
 import { MONGOUSER } from 'src/app/mocks/mongo-user.mock';
 import { MongoDocument } from '../../models/mongo-document.model';
 import { DocumentService } from '../../services/document.service';
-
-let QRCODE: string;
-let SHORTENEDURL: string;
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home',
@@ -55,8 +53,6 @@ export class HomeComponent implements OnInit {
         .createGenericDocument(this.mongoDocument.url, this.layout.userConnected ? MONGOUSER.id : '')
         .then((response: any) => {
           this.mongoDocument = response;
-          QRCODE = this.mongoDocument.qrCode;
-          SHORTENEDURL = `https://shortened.daedal.pro/${this.mongoDocument.shortId}`;
         })
         .catch((err) => {
           console.log(err);
@@ -73,8 +69,6 @@ export class HomeComponent implements OnInit {
           .createCustomDocument(this.mongoDocument.url, this.slugForm.value.slug, MONGOUSER.id)
           .then((response: any) => {
             this.mongoDocument = response;
-            QRCODE = this.mongoDocument.qrCode;
-            SHORTENEDURL = `https://shortened.daedal.pro/${this.mongoDocument.shortId}`;
           })
           .catch((err) => {
             console.log(err);
@@ -130,7 +124,11 @@ export class HomeComponent implements OnInit {
   }
 
   showQrCode() {
-    this.dialog.open(QrCodeComponent);
+    this.dialog.open(QrCodeComponent, {
+      data: {
+        qrCode: this.mongoDocument.qrCode
+      }
+    });
   }
 }
 
@@ -139,6 +137,8 @@ export class HomeComponent implements OnInit {
   templateUrl: 'qrcode.component.html'
 })
 export class QrCodeComponent {
-  qrCode = QRCODE;
-  shortenedUrl = SHORTENEDURL;
+  qrCode: string;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+    this.qrCode = data.qrCode;
+  }
 }

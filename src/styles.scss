@@ -11,6 +11,23 @@ $angular-url-shortener-theme: mat-light-theme((color: (primary: $angular-url-sho
 
 @include angular-material-theme($angular-url-shortener-theme);
 
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: mat-color($angular-url-shortener-accent);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: mat-color($angular-url-shortener-primary);
+}
+
 *:focus {
   outline: none !important;
 }

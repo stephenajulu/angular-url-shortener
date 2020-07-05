@@ -1,1 +1,59 @@
-<p>dashboard works!</p>
+<div class="container pt-5 pb-3" *ngIf="loaded">
+  <div class="row">
+    <div class="col-12 mb-3" *ngIf="mongoDocuments.length === 0">
+      <mat-card>
+        <mat-card-content>
+          <div class="col-12 text-center text-warn display-4">
+            <strong>
+              AUCUN DOCUMENT
+            </strong>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngFor="let mongoDocument of mongoDocuments" class="col-12 mb-3">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content class="d-flex align-items-center">
+          <div class="col-2">
+            <div *ngIf="mongoDocument.metadata['og:image'] !== ''">
+              <img src="{{ mongoDocument.metadata['og:image'] }}" class="img-fluid mat-elevation-z3">
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="text-primary title">
+              <strong>
+                {{ mongoDocument.metadata['og:site_name'] }}
+              </strong>
+            </div>
+            <div>
+              <a href="https://shortened.daedal.pro/{{ mongoDocument.shortId }}" target="_blank">
+                https://shortened.daedal.pro/{{ mongoDocument.shortId }}
+              </a>
+            </div>
+          </div>
+          <div class="col-2">
+            <span class="text-warn display-4">{{ mongoDocument.clickCount }}</span>
+            click<span *ngIf="mongoDocument.clickCount > 1">s</span>
+          </div>
+          <div class="col-3 d-flex justify-content-center">
+            <div>
+              <button mat-stroked-button (click)="copyLink(mongoDocument)">
+                <mat-icon class="text-primary">content_copy</mat-icon>
+              </button>
+            </div>
+            <div>
+              <button mat-stroked-button class="mx-2" (click)="showQrCode(mongoDocument)">
+                <mat-icon class="text-accent">qr_code</mat-icon>
+              </button>
+            </div>
+            <div>
+              <button mat-stroked-button (click)="deleteDocument(mongoDocument)">
+                <mat-icon class="text-warn">delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

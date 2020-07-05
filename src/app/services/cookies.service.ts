@@ -23,7 +23,7 @@ export class CookiesService {
     this.cookieService.set(
       name,
       value,
-      365,
+      1,
       '/'
       // '.daedal.pro', true, 'Strict'
     );
