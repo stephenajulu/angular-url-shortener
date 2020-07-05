@@ -20,20 +20,11 @@ export class CookiesService {
   }
 
   setCookie(name: string, value: string) {
-    this.cookieService.set(
-      name,
-      value,
-      1,
-      '/'
-      // '.daedal.pro', true, 'Strict'
-    );
+    this.cookieService.set(name, value, 1, '/', '.daedal.pro', true, 'Strict');
   }
 
   deleteCookie(name: string) {
-    this.cookieService.delete(
-      name
-      // , '/', '.daedal.pro'
-    );
+    this.cookieService.delete(name, '/', '.daedal.pro');
   }
 
   deleteAllCookies() {
