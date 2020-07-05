@@ -22,7 +22,7 @@
       <div class="col-12 d-flex align-items-center" *ngIf="layout.userConnected && !mongoDocument.created">
         <form [formGroup]="slugForm" class="d-flex flex-fill">
           <mat-form-field class="flex-fill" appearance="outline">
-            <mat-label>Choisissez votre id (optionnel)</mat-label>
+            <mat-label>Personnlisez votre id (optionnel)</mat-label>
             <input matInput placeholder="..." formControlName="slug" pattern="^[a-zA-Z0-9_.-]*$" class="text-accent"
               value="https://shortened.daedal.pro/" (keyup)="keyboardSubmit($event)">
             <mat-icon matSuffix>settings</mat-icon>
