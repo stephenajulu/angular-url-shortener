@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { MongoUser } from '../models/mongo-user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  rootUri = 'https://shortened.daedal.pro/users/';
+  rootUri: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.rootUri = `${environment.apiEndPoint}/users/`;
+  }
 
   createUser(user: MongoUser) {
     return this.http.post(this.rootUri, user).toPromise();

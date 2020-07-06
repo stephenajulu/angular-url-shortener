@@ -1,14 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { MongoDocument } from '../models/mongo-document.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
-  rootUri = 'https://shortened.daedal.pro/documents/';
+  rootUri: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.rootUri = `${environment.apiEndPoint}/documents/`;
+  }
 
   createGenericDocument(url: string, userId: string) {
     return this.http.post(this.rootUri, { url, userId }).toPromise();
