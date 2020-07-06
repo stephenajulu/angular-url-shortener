@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiEndPoint: 'https://shortened.daedal.pro/'
+  apiEndPoint: 'https://shortened.daedal.pro'
 };
