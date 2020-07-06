@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,14 @@ export class CookiesService {
   }
 
   setCookie(name: string, value: string) {
-    this.cookieService.set(name, value, 1, '/', '.daedal.pro', true, 'Strict');
+    this.cookieService.set(name, value, 1, '/', environment.cookieDomain, environment.cookieSecure, environment.cookieSameSite);
   }
 
   deleteCookie(name: string) {
-    this.cookieService.delete(name, '/', '.daedal.pro');
+    this.cookieService.delete(name, '/', environment.cookieDomain);
   }
 
   deleteAllCookies() {
-    this.cookieService.deleteAll('/', '.daedal.pro');
+    this.cookieService.deleteAll('/', environment.cookieDomain);
   }
 }
